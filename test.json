@@ -1,0 +1,105 @@
+{
+    "data": {
+        "error": {
+            "statusCode": 400,
+            "message": "Người dùng đã tồn tại! Vui lòng chọn email khác!"
+        }
+    },
+    "status": 400,
+    "headers": {
+        "access-control-allow-origin": "*",
+        "content-length": "103",
+        "connection": "keep-alive",
+        "x-powered-by": "Express",
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"67-GpMKReq9DjMR27x7xK99FWD65sw\"",
+        "date": "Thu, 13 May 2021 13:05:11 GMT",
+        "keep-alive": "timeout=5"
+    },
+    "config": {
+        "url": "/user/register-user-account",
+        "method": "post",
+        "data": "{\"fullName\":\"Hv\",\"email\":\"huynh@gmail.com\",\"password\":\"Ghh\"}",
+        "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "user-role": "USER",
+            "Authorization": "Bearer null"
+        },
+        "baseURL": "http://192.168.1.7:4398",
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 20000,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1
+    },
+    "request": {
+        "UNSENT": 0,
+        "OPENED": 1,
+        "HEADERS_RECEIVED": 2,
+        "LOADING": 3,
+        "DONE": 4,
+        "readyState": 4,
+        "status": 400,
+        "timeout": 20000,
+        "withCredentials": true,
+        "upload": {},
+        "_aborted": false,
+        "_hasError": false,
+        "_method": "POST",
+        "_perfKey": "network_XMLHttpRequest_http://192.168.1.7:4398/user/register-user-account",
+        "_response": "{\"error\":{\"statusCode\":400,\"message\":\"Người dùng đã tồn tại! Vui lòng chọn email khác!\"}}",
+        "_url": "http://192.168.1.7:4398/user/register-user-account",
+        "_timedOut": false,
+        "_trackingName": "unknown",
+        "_incrementalEvents": false,
+        "_performanceLogger": {
+            "_timespans": {
+                "network_XMLHttpRequest_http://192.168.1.7:4398/user/register-user-account": {
+                    "startTime": 267950413.264085,
+                    "endTime": 267952545.618356,
+                    "totalTime": 2132.3542709946632
+                }
+            },
+            "_extras": {},
+            "_points": {
+                "initializeCore_start": 267937735.086538,
+                "initializeCore_end": 267937835.236851
+            },
+            "_pointExtras": {},
+            "_closed": false
+        },
+        "responseHeaders": {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Length": "103",
+            "Connection": "keep-alive",
+            "X-Powered-By": "Express",
+            "Content-Type": "application/json; charset=utf-8",
+            "ETag": "W/\"67-GpMKReq9DjMR27x7xK99FWD65sw\"",
+            "Date": "Thu, 13 May 2021 13:05:11 GMT",
+            "Keep-Alive": "timeout=5"
+        },
+        "_requestId": null,
+        "_headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-role": "USER",
+            "authorization": "Bearer null"
+        },
+        "_responseType": "",
+        "_sent": true,
+        "_lowerCaseResponseHeaders": {
+            "access-control-allow-origin": "*",
+            "content-length": "103",
+            "connection": "keep-alive",
+            "x-powered-by": "Express",
+            "content-type": "application/json; charset=utf-8",
+            "etag": "W/\"67-GpMKReq9DjMR27x7xK99FWD65sw\"",
+            "date":"Thu, 13 May 2021 13:05:11 
+GMT","keep-alive":"timeout=5"},"_subscriptions":[],"responseURL":"http: //192.168.1.7:4398/user/register-user-account"}}

@@ -4,7 +4,10 @@
 /* eslint-disable prettier/prettier */
 import { combineReducers } from 'redux';
 
+import user from "./user";
+import loading from "./loading";
+import categories from "./categories";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({ user, loading, categories });
 
 export default rootReducer;
