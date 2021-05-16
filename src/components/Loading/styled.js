@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.View`
-    flex: 1;
     background-color: rgba(0,0,0,0.5);
     justify-content: center;
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
 `;

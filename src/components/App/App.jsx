@@ -11,17 +11,18 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {connect} from 'react-redux';
 import {actGetUserInfo, actRegister} from '../../redux/actions/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import DiscountCode from '../../screens/DiscountCode';
-import Sale from '../../screens/Sale';
+import Product from '../../screens/Product';
 import PersonalDiscountCode from '../../screens/PersonalDiscountCode';
 import Profile from '../../screens/Profile';
 import Login from '../../screens/Login';
 import isFalsyValue from '../../utils/isFalsyValue';
+import Loading from '../Loading';
+import {Container} from './styled';
 
 const Tab = createBottomTabNavigator();
 
-function App({userInfo, actGetUserInfo}) {
+function App({loading: {isShowLoading}, userInfo, actGetUserInfo}) {
   const isLoggedIn = Object.keys(userInfo).length !== 0;
 
   useEffect(() => {
@@ -57,64 +58,64 @@ function App({userInfo, actGetUserInfo}) {
 
   // console.log('----->userInfo: ', userInfo, '<-----');
   return (
-    <>
+    <Container>
+      {isShowLoading && <Loading />}
       <StatusBar />
-      <NavigationContainer>
-        {isLoggedIn ? (
-          <Tab.Navigator
-            tabBarOptions={{
-              activeTintColor: '#4563FF',
-              inactiveTintColor: '#DFDFDF',
-              labelStyle: {fontSize: 11},
-              style: {height: 55},
-            }}>
-            <Tab.Screen
-              name="Mã giảm giá"
-              component={DiscountCode}
-              options={{
-                tabBarIcon: ({color, size}) => (
-                  <Fontisto name="shopping-sale" color={color} size={25} />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Sản phẩm"
-              component={Sale}
-              options={{
-                tabBarIcon: ({color, size}) => (
-                  <Foundation name="burst-sale" color={color} size={34} />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Mã cá nhân"
-              component={PersonalDiscountCode}
-              options={{
-                tabBarIcon: ({color, size}) => (
-                  <MaterialIcons name="money-off" color={color} size={30} />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Cá nhân"
-              component={Profile}
-              options={{
-                tabBarIcon: ({color, size}) => (
-                  <FontAwesome name="user" color={color} size={25} />
-                ),
-              }}
-            />
-          </Tab.Navigator>
-        ) : (
-          <Login />
-        )}
-      </NavigationContainer>
-    </>
+      {isLoggedIn ? (
+        <Tab.Navigator
+          tabBarOptions={{
+            activeTintColor: '#4563FF',
+            inactiveTintColor: '#DFDFDF',
+            labelStyle: {fontSize: 11},
+            style: {height: 55},
+          }}>
+          <Tab.Screen
+            name="Mã giảm giá"
+            component={DiscountCode}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Fontisto name="shopping-sale" color={color} size={25} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Sản phẩm"
+            component={Product}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Foundation name="burst-sale" color={color} size={34} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Mã cá nhân"
+            component={PersonalDiscountCode}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <MaterialIcons name="money-off" color={color} size={30} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Cá nhân"
+            component={Profile}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <FontAwesome name="user" color={color} size={25} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      ) : (
+        <Login />
+      )}
+    </Container>
   );
 }
 
 const mapStateToProps = state => ({
   userInfo: state.user,
+  loading: state.loading,
 });
 
 const mapDispatchToProps = {

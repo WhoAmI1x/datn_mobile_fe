@@ -1,30 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import {Button, DatePicker, List} from '@ant-design/react-native';
-import {Container} from './styled';
-import {connect} from 'react-redux';
-import {actGetCategories} from '../../redux/actions/categories';
+import {createStackNavigator} from '@react-navigation/stack';
+import DiscountCodeCategoryList from './StackScreens/DiscountCodeCategoryList';
+import AllDiscountCodeByCategory from './StackScreens/AllDiscountCodeByCategory';
 
-function DiscountCode({actGetCategories}) {
-  const [state, setState] = useState({value: undefined});
+const Stack = createStackNavigator();
 
-  const onChange = () => {};
-
-  useEffect(() => {}, []);
-
+function DiscountCodeCategory() {
   return (
-    <Container>
-      <Text>xxxx</Text>
-    </Container>
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen
+        name="DiscountCodeCategoryList"
+        component={DiscountCodeCategoryList}
+      />
+      <Stack.Screen
+        name="AllDiscountCodeByCategory"
+        component={AllDiscountCodeByCategory}
+      />
+    </Stack.Navigator>
   );
 }
 
-const mapStateToProps = state => ({
-  categories: state.categories,
-});
-
-const mapDispatchToProps = {
-  actGetCategories,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DiscountCode);
+export default DiscountCodeCategory;

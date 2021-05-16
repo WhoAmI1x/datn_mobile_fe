@@ -16,18 +16,18 @@ import { name as appName } from './app.json';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Provider as AntProvider } from "@ant-design/react-native";
 import enUS from '@ant-design/react-native/lib/locale-provider/en_US';
-import Loading from "./src/components/Loading";
+import { NavigationContainer } from '@react-navigation/native';
 
-LogBox.ignoreAllLogs();
+// LogBox.ignoreAllLogs();
 
 const render = () => {
     let store = createStore(rootReducer, {}, applyMiddleware(thunk));
 
     return <ReduxProvider store={store}>
         <AntProvider locale={enUS}>
-            <Loading>
+            <NavigationContainer>
                 <App />
-            </Loading>
+            </NavigationContainer>
         </AntProvider>
     </ReduxProvider>;
 }
