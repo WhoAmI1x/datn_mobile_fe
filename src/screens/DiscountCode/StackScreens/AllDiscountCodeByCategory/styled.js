@@ -11,6 +11,9 @@ export const Category = styled(Row)`
     align-items: center;
     background-color: #fff;
     margin-bottom: 10px;
+    width: 100%;
+    padding: 0 36px;
+    flex-wrap: nowrap;
 `;
 
 export const CategoryImage = styled(Image)`

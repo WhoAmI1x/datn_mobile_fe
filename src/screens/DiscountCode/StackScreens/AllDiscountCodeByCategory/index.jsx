@@ -54,7 +54,9 @@ function AllDiscountCodeByCategory({
       }>
       <Category>
         <CategoryImage source={{uri: `${BASE_API_URL}${imageUrl}`}} />
-        <CategoryTitle>{name}</CategoryTitle>
+        <CategoryTitle numberOfLines={1} ellipsizeMode="tail">
+          {name}
+        </CategoryTitle>
       </Category>
 
       <GridLayout>
