@@ -108,6 +108,7 @@ function Login({actRegister, actLogIn}) {
               onChangeText={onChangePassword}
               value={account.password.value}
               placeholder="Nhập password"
+              secureTextEntry={true}
             />
           </FormItem>
           {account.password.isValid && (
