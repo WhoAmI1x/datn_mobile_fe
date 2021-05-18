@@ -1,4 +1,4 @@
-import { getProductDetail, getProductsByCategory } from "../../apis/product";
+import { getProductDetail, getProductDetailSearched, getProductsByCategory, searchProduct } from "../../apis/product";
 import { actSetLoading } from "./loading";
 
 export const actGetProductsByCategory = (categoryId) => async dispatch => {
@@ -39,6 +39,37 @@ export const actResetProductList = () => async dispatch => {
             type: "SET_PRODUCTS",
             payload: []
         });
+    } catch (e) {
+        console.log(e);
+    }
+    dispatch(actSetLoading(false));
+}
+
+export const actSearchProduct = (keyword) => async dispatch => {
+    dispatch(actSetLoading(true));
+    try {
+        const res = await searchProduct(keyword);
+
+        if (res.status === 200) {
+            dispatch({
+                type: "SET_PRODUCTS_SEARCHED",
+                payload: res.products
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+    dispatch(actSetLoading(false));
+}
+
+export const actGetProductDetailSearched = (productId, cb) => async dispatch => {
+    dispatch(actSetLoading(true));
+    try {
+        const res = await getProductDetailSearched(productId);
+
+        if (res.status === 200) {
+            if (cb) cb(res.productFullInfo);
+        }
     } catch (e) {
         console.log(e);
     }

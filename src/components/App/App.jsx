@@ -68,7 +68,8 @@ function App({loading: {isShowLoading}, userInfo, actGetUserInfo}) {
             inactiveTintColor: '#DFDFDF',
             labelStyle: {fontSize: 11},
             style: {height: 55},
-          }}>
+          }}
+          initialRouteName="Cá nhân">
           <Tab.Screen
             name="Mã giảm giá"
             component={DiscountCode}

@@ -59,9 +59,28 @@ export const CurrentPrice = styled.Text`
     font-size: 13px;
 `;
 
-export const ProductExpires = styled.Text`
+export const ProductExpires = styled.View`
+    
+`;
+
+export const ProductExpiresText = styled.Text`
     font-size: 13px;
     color: #999;
+`;
+
+export const FromEcommerce = styled(ProductExpiresText)``;
+
+export const EcommerceTag = styled.View`
+    flex-direction: row;
+    align-items: center;
+    padding-top: 6px;
+`;
+
+export const EcommerceTagText = styled(ProductTag)`
+    color: ${props => props.isTiki ? "#017FFF" : "red"};
+    border-color: ${props => props.isTiki ? "#017FFF" : "red"};
+    min-width: 100px;
+    margin-left: 10px;
 `;
 
 export const GridLayoutCustom = styled(GridLayout)`

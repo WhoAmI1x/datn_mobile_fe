@@ -17,6 +17,10 @@ import {
   ColContentCustom,
   ColBtnCustom,
   GridLayoutCustom,
+  EcommerceTag,
+  ProductExpiresText,
+  FromEcommerce,
+  EcommerceTagText,
 } from './styled.js';
 
 class ProductItem extends PureComponent {
@@ -30,11 +34,17 @@ class ProductItem extends PureComponent {
       priceBeforeDiscount,
       price,
       endTime,
+      markTime,
+      ecommerce,
     } = this.props;
 
     return (
       <Container
-        onPress={() => navigate('ProductDetail', {productId: _id})}
+        onPress={() =>
+          navigate(endTime ? 'ProductDetail' : 'ProductSearchedDetail', {
+            productId: _id,
+          })
+        }
         activeOpacity={0.5}>
         <ProductImage source={{uri: imageUrls[0]}} />
 
@@ -47,7 +57,6 @@ class ProductItem extends PureComponent {
             <Row>
               <ColContentCustom span={12}>
                 <ProductTag>{`-${discountPercent}%`}</ProductTag>
-
                 <ProductPrice numberOfLine={1} ellipsizeMode="tail">
                   <NumberFormat
                     value={priceBeforeDiscount}
@@ -70,9 +79,19 @@ class ProductItem extends PureComponent {
                     renderText={price => <CurrentPrice>{price}</CurrentPrice>}
                   />
                 </ProductPrice>
-
                 <ProductExpires>
-                  Hạn giảm giá: {getDateString(endTime)}
+                  {!markTime ? (
+                    <ProductExpiresText>
+                      Hạn giảm giá: {getDateString(endTime)}
+                    </ProductExpiresText>
+                  ) : (
+                    <EcommerceTag>
+                      <FromEcommerce>Từ sàn:</FromEcommerce>
+                      <EcommerceTagText isTiki={ecommerce === 'TIKI'}>
+                        {ecommerce}
+                      </EcommerceTagText>
+                    </EcommerceTag>
+                  )}
                 </ProductExpires>
               </ColContentCustom>
 

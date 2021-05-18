@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StatusBar, Text, View, Linking, Button} from 'react-native';
 import {connect} from 'react-redux';
-import {actGetProductDetail} from '../../../../redux/actions/product';
+import {actGetProductDetailSearched} from '../../../../redux/actions/product';
 import {Col, Row} from '../../../../utils/gridStyled';
 import NumberFormat from 'react-number-format';
 import {Rating, AirbnbRating} from 'react-native-ratings';
@@ -32,19 +32,19 @@ import {
   BtnAddToCartText,
 } from './styled';
 
-function ProductDetail({
+function ProductSearchedDetail({
   route: {
     params: {productId},
   },
-  actGetProductDetail,
+  actGetProductDetailSearched,
 }) {
-  // console.log(productId);
+  console.log(productId);
 
   const [productFullInfo, setProductFullInfo] = useState({});
   const [currentImage, setCurrentImage] = useState(6);
 
   useEffect(() => {
-    actGetProductDetail(productId, pFInfo => {
+    actGetProductDetailSearched(productId, pFInfo => {
       setProductFullInfo(pFInfo);
     });
   }, []);
@@ -126,14 +126,6 @@ function ProductDetail({
                 decimalSeparator=","
                 renderText={sold => <Text>{sold}</Text>}
               />
-              /
-              <NumberFormat
-                value={productFullInfo.quantityRemain}
-                displayType="text"
-                thousandSeparator="."
-                decimalSeparator=","
-                renderText={sold => <Text>{sold}</Text>}
-              />
             </Sold>
 
             <BtnAddToCart activeOpacity={0.5}>
@@ -192,7 +184,7 @@ function ProductDetail({
 }
 
 const mapDispatchToProps = {
-  actGetProductDetail,
+  actGetProductDetailSearched,
 };
 
-export default connect(null, mapDispatchToProps)(ProductDetail);
+export default connect(null, mapDispatchToProps)(ProductSearchedDetail);
