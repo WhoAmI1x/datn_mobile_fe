@@ -1,5 +1,6 @@
-import { getProductDetail, getProductDetailSearched, getProductsByCategory, searchProduct } from "../../apis/product";
 import { actSetLoading } from "./loading";
+import { getProductDetail, getProductDetailSearched, getProductsByCategory, searchProduct, addProductToCart } from "../../apis/product";
+import { Toast } from "@ant-design/react-native";
 
 export const actGetProductsByCategory = (categoryId) => async dispatch => {
     dispatch(actSetLoading(true));
@@ -75,3 +76,19 @@ export const actGetProductDetailSearched = (productId, cb) => async dispatch => 
     }
     dispatch(actSetLoading(false));
 }
+
+export const actAddProductToCart = (productId) => async dispatch => {
+    dispatch(actSetLoading(true));
+    try {
+        const res = await addProductToCart(productId);
+
+        if (res.status === 200) {
+            Toast.success(res.message, 1);
+        }
+    } catch (e) {
+        console.log(e.response);
+        Toast.success("Thêm vào giỏ hàng thất bại!", 1);
+    }
+    dispatch(actSetLoading(false));
+}
+

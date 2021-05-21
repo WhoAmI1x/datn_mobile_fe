@@ -7,3 +7,5 @@ export const getProductDetail = (productId) => axiosClient.get("/product/get-pro
 export const searchProduct = keyword => axiosClient.get("/product/search-product", { params: { keyword } });
 
 export const getProductDetailSearched = (productId) => axiosClient.get("/product/get-product-detail-searched", { params: { productId } });
+
+export const addProductToCart = (productId) => axiosClient.post("/product/add-product-to-cart", null, { params: { productId } });

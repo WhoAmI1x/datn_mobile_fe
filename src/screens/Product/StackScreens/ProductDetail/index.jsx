@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {StatusBar, Text, View, Linking, Button} from 'react-native';
 import {connect} from 'react-redux';
-import {actGetProductDetail} from '../../../../redux/actions/product';
+import {
+  actGetProductDetail,
+  actAddProductToCart,
+} from '../../../../redux/actions/product';
 import {Col, Row} from '../../../../utils/gridStyled';
 import NumberFormat from 'react-number-format';
 import {Rating, AirbnbRating} from 'react-native-ratings';
@@ -37,6 +40,7 @@ function ProductDetail({
     params: {productId},
   },
   actGetProductDetail,
+  actAddProductToCart,
 }) {
   // console.log(productId);
 
@@ -136,7 +140,9 @@ function ProductDetail({
               />
             </Sold>
 
-            <BtnAddToCart activeOpacity={0.5}>
+            <BtnAddToCart
+              activeOpacity={0.5}
+              onPress={() => actAddProductToCart(productFullInfo._id)}>
               <BtnAddToCartText>Lưu</BtnAddToCartText>
             </BtnAddToCart>
           </ColCustom>
@@ -193,6 +199,7 @@ function ProductDetail({
 
 const mapDispatchToProps = {
   actGetProductDetail,
+  actAddProductToCart,
 };
 
 export default connect(null, mapDispatchToProps)(ProductDetail);
