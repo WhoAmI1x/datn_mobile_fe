@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 
 function Profile() {
   return (
-    <Stack.Navigator headerMode="none" initialRouteName="SearchProduct">
+    <Stack.Navigator headerMode="none" initialRouteName="">
       <Stack.Screen name="HomeProfile" component={HomeProfile} />
       <Stack.Screen name="EcommerceAccount" component={EcommerceAccount} />
       <Stack.Screen name="SearchProduct" component={SearchProduct} />

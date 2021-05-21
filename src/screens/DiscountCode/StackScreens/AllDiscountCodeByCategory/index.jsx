@@ -1,6 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl} from 'react-native';
-import {actGetDiscountCodeByCategory} from '../../../../redux/actions/discountCode';
+import {
+  actGetDiscountCodeByCategory,
+  actSaveDiscountCode,
+} from '../../../../redux/actions/discountCode';
 import {connect} from 'react-redux';
 import {Col, GridLayout, Row} from '../../../../utils/gridStyled';
 import {getDateString} from '../../../../utils/common';
@@ -28,6 +31,7 @@ function AllDiscountCodeByCategory({
     params: {categoryId, name, imageUrl},
   },
   actGetDiscountCodeByCategory,
+  actSaveDiscountCode,
   discountCodes,
 }) {
   const [visible, setVisible] = useState(false);
@@ -85,7 +89,11 @@ function AllDiscountCodeByCategory({
                     onPress={() => handleShowDiscountCodeDetail(discountCode)}>
                     <DiscountCodeFullInfo name="infocirlceo" />
                   </DiscountCodeBtn>
-                  <DiscountCodeBtn type="primary" activeOpacity={0.6} isSaveBtn>
+                  <DiscountCodeBtn
+                    type="primary"
+                    activeOpacity={0.6}
+                    isSaveBtn
+                    onPress={() => actSaveDiscountCode(discountCode._id)}>
                     <BtnText>Lưu</BtnText>
                   </DiscountCodeBtn>
                 </DiscountCodeActions>
@@ -110,6 +118,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   actGetDiscountCodeByCategory,
+  actSaveDiscountCode,
 };
 
 export default connect(

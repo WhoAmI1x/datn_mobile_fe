@@ -54,6 +54,7 @@ export const actGetUserInfo = () => async dispatch => {
             dispatch(actSetLoading(false));
         }
     } catch (e) {
+        console.log(e.response.data);
         // await AsyncStorage.removeItem("accessToken");
         Toast.fail(e.response?.data?.error || "Lỗi xác thực!", 1);
         dispatch(actSetLoading(false));
