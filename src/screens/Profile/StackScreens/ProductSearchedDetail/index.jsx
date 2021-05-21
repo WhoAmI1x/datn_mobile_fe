@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {StatusBar, Text, View, Linking, Button} from 'react-native';
 import {connect} from 'react-redux';
-import {actGetProductDetailSearched} from '../../../../redux/actions/product';
+import {
+  actGetProductDetailSearched,
+  actAddProductToCart,
+} from '../../../../redux/actions/product';
 import {Col, Row} from '../../../../utils/gridStyled';
 import NumberFormat from 'react-number-format';
 import {Rating, AirbnbRating} from 'react-native-ratings';
@@ -37,6 +40,7 @@ function ProductSearchedDetail({
     params: {productId},
   },
   actGetProductDetailSearched,
+  actAddProductToCart,
 }) {
   console.log(productId);
 
@@ -128,7 +132,9 @@ function ProductSearchedDetail({
               />
             </Sold>
 
-            <BtnAddToCart activeOpacity={0.5}>
+            <BtnAddToCart
+              activeOpacity={0.5}
+              onPress={() => actAddProductToCart(productFullInfo._id)}>
               <BtnAddToCartText>Lưu</BtnAddToCartText>
             </BtnAddToCart>
           </ColCustom>
@@ -185,6 +191,7 @@ function ProductSearchedDetail({
 
 const mapDispatchToProps = {
   actGetProductDetailSearched,
+  actAddProductToCart,
 };
 
 export default connect(null, mapDispatchToProps)(ProductSearchedDetail);
