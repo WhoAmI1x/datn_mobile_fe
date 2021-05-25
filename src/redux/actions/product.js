@@ -77,16 +77,15 @@ export const actGetProductDetailSearched = (productId, cb) => async dispatch => 
     dispatch(actSetLoading(false));
 }
 
-export const actAddProductToCart = (productId) => async dispatch => {
+export const actAddProductToCart = ({ productId, modelId }) => async dispatch => {
     dispatch(actSetLoading(true));
     try {
-        const res = await addProductToCart(productId);
+        const res = await addProductToCart({ productId, modelId });
 
         if (res.status === 200) {
             Toast.success(res.message, 1);
         }
     } catch (e) {
-        console.log(e.response);
         Toast.success("Thêm vào giỏ hàng thất bại!", 1);
     }
     dispatch(actSetLoading(false));

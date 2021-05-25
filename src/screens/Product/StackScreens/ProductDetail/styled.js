@@ -2,6 +2,7 @@ import { Button, Carousel } from "@ant-design/react-native";
 import styled from "styled-components";
 import { Image, ImageBackground, ScrollView, TouchableOpacity } from "react-native";
 import { Col, GridLayout, Row } from "../../../../utils/gridStyled";
+import SelectInput from 'react-native-select-input-ios';
 
 export const Container = styled(ScrollView)`
     flex: 1;
@@ -120,4 +121,7 @@ export const ProductUrl = styled.Text`
     color: #007BFF;
 `;
 
-
+export const SelectInputCustom = styled(SelectInput)`
+    border: 1px solid #999;
+    margin-top: 5px;
+`;

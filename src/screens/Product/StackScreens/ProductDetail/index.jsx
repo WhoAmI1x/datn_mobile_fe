@@ -33,6 +33,7 @@ import {
   ProductUrlRow,
   BtnAddToCart,
   BtnAddToCartText,
+  SelectInputCustom,
 } from './styled';
 
 function ProductDetail({
@@ -42,14 +43,26 @@ function ProductDetail({
   actGetProductDetail,
   actAddProductToCart,
 }) {
-  // console.log(productId);
+  console.log(productId);
 
   const [productFullInfo, setProductFullInfo] = useState({});
   const [currentImage, setCurrentImage] = useState(6);
+  const [modelSelected, setModelSelected] = useState({});
+
+  const handleChangeModel = modelId => {
+    setModelSelected(
+      productFullInfo.shopeeModels.find(({modelid}) => modelid === modelId),
+    );
+  };
 
   useEffect(() => {
     actGetProductDetail(productId, pFInfo => {
       setProductFullInfo(pFInfo);
+      setModelSelected(
+        (pFInfo.shopeeModels.length > 0 &&
+          pFInfo.shopeeModels.find(({price}) => price === pFInfo.price)) ||
+          {},
+      );
     });
   }, []);
 
@@ -63,7 +76,7 @@ function ProductDetail({
 
       <CarouselCustom
         selectedIndex={currentImage}
-        autoplay
+        // autoplay
         infinite
         afterChange={i => setCurrentImage(i)}>
         {productFullInfo.imageUrls &&
@@ -84,7 +97,7 @@ function ProductDetail({
 
           <ColCustom span={12}>
             <NumberFormat
-              value={productFullInfo.price}
+              value={modelSelected.price || productFullInfo.price}
               displayType="text"
               thousandSeparator="."
               decimalSeparator=","
@@ -93,7 +106,10 @@ function ProductDetail({
             />
 
             <NumberFormat
-              value={productFullInfo.priceBeforeDiscount}
+              value={
+                modelSelected.priceBeforeDiscount ||
+                productFullInfo.priceBeforeDiscount
+              }
               displayType="text"
               thousandSeparator="."
               decimalSeparator=","
@@ -103,7 +119,11 @@ function ProductDetail({
               )}
             />
 
-            <DiscountPercent>{`-${productFullInfo.discountPercent}%`}</DiscountPercent>
+            <DiscountPercent>{`-${
+              modelSelected.price
+                ? modelSelected.discountPercent
+                : productFullInfo.discountPercent
+            }%`}</DiscountPercent>
           </ColCustom>
 
           <ColCustom span={12}>
@@ -142,11 +162,49 @@ function ProductDetail({
 
             <BtnAddToCart
               activeOpacity={0.5}
-              onPress={() => actAddProductToCart(productFullInfo._id)}>
+              onPress={() =>
+                actAddProductToCart({
+                  productId: productFullInfo._id,
+                  modelId: modelSelected.modelid,
+                })
+              }>
               <BtnAddToCartText>Lưu</BtnAddToCartText>
             </BtnAddToCart>
           </ColCustom>
         </RowCustom>
+
+        {productFullInfo.shopeeModels &&
+          productFullInfo.shopeeModels.length > 0 && (
+            <ProductUrlRow>
+              <Col span={12}>
+                <TextSessionTitle>Chọn Mẫu</TextSessionTitle>
+              </Col>
+              <Col span={12}>
+                <SelectInputCustom
+                  onSubmitEditing={handleChangeModel}
+                  value={modelSelected.modelid}
+                  options={productFullInfo.shopeeModels.map(
+                    ({name, modelid}) => ({
+                      value: modelid,
+                      label: name,
+                    }),
+                  )}
+                />
+              </Col>
+            </ProductUrlRow>
+          )}
+
+        <ProductUrlRow>
+          <Col span={12}>
+            <TextSessionTitle>Link sản phẩm</TextSessionTitle>
+          </Col>
+          <Col span={12}>
+            <ProductUrl
+              onPress={() => Linking.openURL(productFullInfo.productUrl)}>
+              {productFullInfo.productUrl}
+            </ProductUrl>
+          </Col>
+        </ProductUrlRow>
 
         <DetailRow>
           <Col span={12}>
@@ -168,18 +226,6 @@ function ProductDetail({
                 ))}
           </Col>
         </DetailRow>
-
-        <ProductUrlRow>
-          <Col span={12}>
-            <TextSessionTitle>Link sản phẩm</TextSessionTitle>
-          </Col>
-          <Col span={12}>
-            <ProductUrl
-              onPress={() => Linking.openURL(productFullInfo.productUrl)}>
-              {productFullInfo.productUrl}
-            </ProductUrl>
-          </Col>
-        </ProductUrlRow>
 
         <DescriptionRow>
           <Col span={12}>

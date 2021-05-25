@@ -28,7 +28,6 @@ export const actSaveDiscountCode = (discountCodeId) => async dispatch => {
             Toast.success("Lưu mã thành công!", 1);
         }
     } catch (e) {
-        console.log(e.response);
         Toast.fail(e.response?.data?.error?.message, 1);
     }
     dispatch(actSetLoading(false));

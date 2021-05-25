@@ -1,3 +1,4 @@
+import {Toast} from '@ant-design/react-native';
 import React, {useState} from 'react';
 import {Platform} from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -46,14 +47,29 @@ function Login({actRegister, actLogIn}) {
     setAccount({...account, password: {value, isValid: isFalsyValue(value)}});
 
   const handlePress = () => {
-    if (!isLoginScreen) {
-      actRegister({
+    if (
+      ((!isLoginScreen && !account.fullName.value) || isLoginScreen) &&
+      !account.email.value &&
+      !account.password.value
+    ) {
+      return Toast.fail('Cần nhập đủ thông tin!', 1);
+    }
+
+    if (
+      !isLoginScreen &&
+      account.fullName.value &&
+      account.email.value &&
+      account.password.value
+    ) {
+      return actRegister({
         fullName: account.fullName.value,
         email: account.email.value,
         password: account.password.value,
       });
-    } else {
-      actLogIn({
+    }
+
+    if (isLoginScreen && account.email.value && account.password.value) {
+      return actLogIn({
         email: account.email.value,
         password: account.password.value,
       });
