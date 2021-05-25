@@ -73,8 +73,8 @@ export const DiscountCodeBtn = styled(TouchableOpacity)``;
 
 export const DiscountCodeBtnCreate = styled(TouchableOpacity)`
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    bottom: 10px;
+    right: 20px;
 `;
 
 export const BtnCreateIcon = styled(AntDesign)`

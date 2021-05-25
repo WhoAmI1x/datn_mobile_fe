@@ -1,9 +1,10 @@
-import {Button, List, SwipeAction} from '@ant-design/react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, Text, View} from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {connect} from 'react-redux';
-import {actGetPersonalDiscountCodes} from '../../../../redux/actions/personalDiscountCode';
+import {
+  actGetPersonalDiscountCodes,
+  actDeletePersonalDiscountCode,
+} from '../../../../redux/actions/personalDiscountCode';
 import {getDateString} from '../../../../utils/common';
 import {BASE_API_URL} from '../../../../utils/constants';
 import {Col, GridLayout, Row} from '../../../../utils/gridStyled';
@@ -29,11 +30,13 @@ import {
 function PersonalDiscountCode({
   actGetPersonalDiscountCodes,
   personalDiscountCodes,
+  actDeletePersonalDiscountCode,
   navigation,
 }) {
   const [visible, setVisible] = useState(false);
   const [currentPersonalDiscountCode, setCurrentPersonalDiscountCode] =
     useState({});
+  const [personalDiscountCodeId, setPersonalDiscountCodeId] = useState('');
 
   const handleShowPersonalDiscountCodeDetail = personalDiscountCode => {
     setVisible(true);
@@ -52,15 +55,18 @@ function PersonalDiscountCode({
     return unsubscribe;
   }, [navigation]);
 
-  const right = [
+  const left = [
     {
       text: 'Sửa',
-      onPress: () => console.log('Sửa'),
+      onPress: () => {},
       style: {backgroundColor: 'orange', color: 'white'},
     },
     {
       text: 'Xóa',
-      onPress: () => console.log('Xóa'),
+      onPress: a => {
+        console.log('a: ', a);
+        actDeletePersonalDiscountCode(personalDiscountCodeId);
+      },
       style: {backgroundColor: 'red', color: 'white'},
     },
   ];
@@ -79,7 +85,13 @@ function PersonalDiscountCode({
           <Row>
             {personalDiscountCodes.map((personalDiscountCode, index) => (
               <Col key={index} span={12}>
-                <SwipeActionCustom autoClose right={right}>
+                <SwipeActionCustom
+                  autoClose
+                  left={left}
+                  onOpen={() =>
+                    setPersonalDiscountCodeId(personalDiscountCode._id)
+                  }
+                  onClose={() => setPersonalDiscountCodeId('')}>
                   <PersonalDiscountCodeItem>
                     <DiscountCodeImage
                       source={{
@@ -139,6 +151,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   actGetPersonalDiscountCodes,
+  actDeletePersonalDiscountCode,
 };
 
 export default connect(
