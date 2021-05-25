@@ -1,11 +1,22 @@
-import React from 'react';
-import {Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import AllPersonalDiscountCode from './StackScreens/AllPersonalDiscountCode';
+import CreatePersonalDiscountCode from './StackScreens/CreatePersonalDiscountCode';
 
-function PersonalDiscountCode({}) {
+const Stack = createStackNavigator();
+
+function PersonalDiscountCode() {
   return (
-    <View>
-      <Text>Personal discount codes</Text>
-    </View>
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen
+        name="AllPersonalDiscountCode"
+        component={AllPersonalDiscountCode}
+      />
+      <Stack.Screen
+        name="CreatePersonalDiscountCode"
+        component={CreatePersonalDiscountCode}
+      />
+    </Stack.Navigator>
   );
 }
 

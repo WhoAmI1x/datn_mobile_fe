@@ -69,7 +69,7 @@ function App({loading: {isShowLoading}, userInfo, actGetUserInfo}) {
             labelStyle: {fontSize: 11},
             style: {height: 55},
           }}
-          initialRouteName="Sản phẩm">
+          initialRouteName="Mã cá nhân">
           <Tab.Screen
             name="Mã giảm giá"
             component={DiscountCode}
