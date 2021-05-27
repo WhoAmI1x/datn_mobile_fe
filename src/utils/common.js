@@ -10,4 +10,7 @@ const getDateString = milliseconds => {
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 }
 
-export { getDateString, getDateStringAndTime };
+const isFalsyValue = value => ["", null, undefined].includes(value);
+
+
+export { getDateString, getDateStringAndTime, isFalsyValue };

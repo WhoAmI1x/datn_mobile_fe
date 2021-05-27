@@ -36,12 +36,33 @@ function PersonalDiscountCode({
   const [visible, setVisible] = useState(false);
   const [currentPersonalDiscountCode, setCurrentPersonalDiscountCode] =
     useState({});
-  const [personalDiscountCodeId, setPersonalDiscountCodeId] = useState('');
+  const [personalDiscountCodeSwiped, setPersonalDiscountCodeSwiped] = useState(
+    {},
+  );
 
   const handleShowPersonalDiscountCodeDetail = personalDiscountCode => {
     setVisible(true);
     setCurrentPersonalDiscountCode(personalDiscountCode);
   };
+
+  const left = [
+    {
+      text: 'Sửa',
+      onPress: () =>
+        navigation.navigate('CreatePersonalDiscountCode', {
+          pDCEdited: personalDiscountCodeSwiped,
+        }),
+      style: {backgroundColor: 'orange', color: 'white'},
+    },
+    {
+      text: 'Xóa',
+      onPress: () =>
+        actDeletePersonalDiscountCode(personalDiscountCodeSwiped._id),
+      style: {backgroundColor: 'red', color: 'white'},
+    },
+  ];
+
+  const onRefresh = useCallback(() => actGetPersonalDiscountCodes(), []);
 
   useEffect(() => {
     actGetPersonalDiscountCodes();
@@ -55,23 +76,11 @@ function PersonalDiscountCode({
     return unsubscribe;
   }, [navigation]);
 
-  const left = [
-    {
-      text: 'Sửa',
-      onPress: () => {},
-      style: {backgroundColor: 'orange', color: 'white'},
-    },
-    {
-      text: 'Xóa',
-      onPress: a => {
-        console.log('a: ', a);
-        actDeletePersonalDiscountCode(personalDiscountCodeId);
-      },
-      style: {backgroundColor: 'red', color: 'white'},
-    },
-  ];
-
-  const onRefresh = useCallback(() => actGetPersonalDiscountCodes(), []);
+  useEffect(() => {
+    if (!visible) {
+      setCurrentPersonalDiscountCode({});
+    }
+  }, [visible]);
 
   return (
     <Container>
@@ -89,9 +98,9 @@ function PersonalDiscountCode({
                   autoClose
                   left={left}
                   onOpen={() =>
-                    setPersonalDiscountCodeId(personalDiscountCode._id)
+                    setPersonalDiscountCodeSwiped(personalDiscountCode)
                   }
-                  onClose={() => setPersonalDiscountCodeId('')}>
+                  onClose={() => setPersonalDiscountCodeSwiped({})}>
                   <PersonalDiscountCodeItem>
                     <DiscountCodeImage
                       source={{

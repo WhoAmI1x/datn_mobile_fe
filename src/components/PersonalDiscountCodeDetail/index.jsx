@@ -32,11 +32,15 @@ function PersonalDiscountCodeDetail({
   visible,
   setVisible,
   currentPersonalDiscountCode,
+  navigation,
 }) {
   const [currentImage, setCurrentImage] = useState(0);
   const [isPreviewing, setIsPreviewing] = useState(false);
 
-  const handleClose = () => setVisible(false);
+  const handleClose = () => {
+    setVisible(false);
+    setCurrentImage(0);
+  };
 
   const handleShowPreview = () => setIsPreviewing(true);
 
