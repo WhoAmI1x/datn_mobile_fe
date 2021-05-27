@@ -72,7 +72,7 @@ function PersonalDiscountCodeDetail({
             <Col span={12}>
               <CarouselCustom
                 selectedIndex={currentImage}
-                // autoplay
+                autoplay
                 infinite
                 afterChange={i => setCurrentImage(i)}>
                 {images.map((image, index) => (
