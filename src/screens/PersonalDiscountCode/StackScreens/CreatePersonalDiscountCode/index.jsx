@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Modal, Text, View} from 'react-native';
+import {Modal, ScrollView, Text, View} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Modal as AntdModal} from '@ant-design/react-native';
+import {Button, Modal as AntdModal} from '@ant-design/react-native';
 import {Col, GridLayout, Row} from '../../../../utils/gridStyled';
 import {DatePickerView, Toast} from '@ant-design/react-native';
 import {getDateStringAndTime, isFalsyValue} from '../../../../utils/common';
@@ -24,6 +24,12 @@ import {
   ActionBtn,
   DateTimeValue,
   TextInputTitleCustom,
+  AntdModalDateTime,
+  DatePickerViewCustom,
+  DateTimeModalTitle,
+  DateTimeBtn,
+  DateTimeBtnText,
+  RowCustom,
 } from './styled';
 import {BASE_API_URL} from '../../../../utils/constants';
 
@@ -37,11 +43,12 @@ function CreatePersonalDiscountCode({
 
   const [images, setImages] = useState(
     (pDCEdited &&
-      pDCEdited.imageUrls.map(url => {
-        url;
-      })) ||
+      pDCEdited.imageUrls.map(url => ({
+        uri: `${BASE_API_URL}${url}`,
+      }))) ||
       [],
   );
+
   const [title, setTitle] = useState((pDCEdited && pDCEdited.title) || '');
   const [dateTime, setDateTime] = useState(
     new Date((pDCEdited && pDCEdited.expires) || Date.now()),
@@ -49,8 +56,9 @@ function CreatePersonalDiscountCode({
   const [description, setDescription] = useState(
     (pDCEdited && pDCEdited.description) || '',
   );
-  const [currentImage, setCurrentImage] = useState(0);
+  const [currentImage, setCurrentImage] = useState();
   const [isPreviewing, setIsPreviewing] = useState(false);
+  const [isModalDateTimeVisible, setIsModalDateTimeVisible] = useState(false);
 
   const handleShowPreview = () => setIsPreviewing(true);
 
@@ -60,7 +68,7 @@ function CreatePersonalDiscountCode({
 
   const handleChangeTitle = til => setTitle(til);
 
-  const onChange = dt => setDateTime(dt);
+  const onChangeExpires = dt => setDateTime(dt);
 
   const handleTakePhoto = () => {
     launchCamera(
@@ -90,7 +98,6 @@ function CreatePersonalDiscountCode({
         mediaType: 'photo',
         maxWidth: 200,
         quality: 1,
-        saveToPhotos: true,
       },
       image => {
         if (!image.didCancel) {
@@ -119,6 +126,19 @@ function CreatePersonalDiscountCode({
     ]);
   };
 
+  const handleDeleteImage = imageIndex => {
+    AntdModal.operation([
+      {
+        text: 'Xóa',
+        onPress: () => {
+          setImages(images =>
+            images.filter((image, index) => index !== imageIndex),
+          );
+        },
+      },
+    ]);
+  };
+
   const handleAction = () => {
     if (images.length <= 0) {
       return Toast.fail('Bạn cần thêm ảnh!', 1);
@@ -131,7 +151,14 @@ function CreatePersonalDiscountCode({
     const formData = new FormData();
 
     images.forEach(image => {
-      formData.append('images', image);
+      if (Object.keys(image).length > 1) {
+        formData.append('images', image);
+      } else {
+        formData.append(
+          'oldImageUrls[]',
+          `/images${image.uri.split('images')[1]}`,
+        );
+      }
     });
     formData.append('title', title);
     formData.append('description', description);
@@ -148,8 +175,12 @@ function CreatePersonalDiscountCode({
     }
   };
 
+  const handleShowDateTimeModal = () => setIsModalDateTimeVisible(true);
+
+  const handleChooseDateTime = () => setIsModalDateTimeVisible(false);
+
   const imagesPreview = images.map((image, index) => ({
-    url: image.uri || `${BASE_API_URL}${image.url}`,
+    url: image.uri,
   }));
 
   useEffect(() => {
@@ -166,7 +197,7 @@ function CreatePersonalDiscountCode({
   }, [navigation]);
 
   return (
-    <Container>
+    <Container nestedScrollEnabled={true}>
       <ScreenTitle>
         {pDCEdited ? `Sửa mã cá nhân` : `Tạo mã cá nhân`}
       </ScreenTitle>
@@ -184,9 +215,10 @@ function CreatePersonalDiscountCode({
                   <ImageBtn
                     activeOpacity={0.8}
                     onPress={handleShowPreview}
+                    onLongPress={() => handleDeleteImage(index)}
                     key={index}>
                     <ImageCustom
-                      source={{uri: image.uri || `${BASE_API_URL}${image.url}`}}
+                      source={{uri: image.uri}}
                       resizeMode="contain"
                     />
                   </ImageBtn>
@@ -213,11 +245,17 @@ function CreatePersonalDiscountCode({
           </Col>
 
           <Col span={12}>
-            <SessionTitle>
-              Hạn dùng:{' '}
-              <DateTimeValue>{getDateStringAndTime(dateTime)}</DateTimeValue>
-            </SessionTitle>
-            <DatePickerView value={dateTime} onChange={onChange} />
+            <SessionTitle>Hạn dùng</SessionTitle>
+            <RowCustom>
+              <Col span={10}>
+                <DateTimeValue>{getDateStringAndTime(dateTime)}</DateTimeValue>
+              </Col>
+              <Col span={2}>
+                <DateTimeBtn onPress={handleShowDateTimeModal}>
+                  <DateTimeBtnText>Đổi</DateTimeBtnText>
+                </DateTimeBtn>
+              </Col>
+            </RowCustom>
           </Col>
 
           <Col span={12}>
@@ -246,6 +284,18 @@ function CreatePersonalDiscountCode({
           swipeDownThreshold={20}
         />
       </Modal>
+
+      <AntdModalDateTime
+        visible={isModalDateTimeVisible}
+        transparent
+        title={
+          <DateTimeModalTitle>
+            {getDateStringAndTime(dateTime)}
+          </DateTimeModalTitle>
+        }
+        footer={[{text: 'OK', onPress: handleChooseDateTime}]}>
+        <DatePickerViewCustom value={dateTime} onChange={onChangeExpires} />
+      </AntdModalDateTime>
     </Container>
   );
 }

@@ -15,7 +15,7 @@ export const createPersonalDiscountCode = (newPersonalDiscountCode) => axiosClie
     }
 );
 
-export const updatePersonalDiscountCode = (newPersonalDiscountCode, PersonalDiscountCodeId) => axiosClient.post("/personal-discount-code/update",
+export const updatePersonalDiscountCode = (newPersonalDiscountCode, PersonalDiscountCodeId) => axiosClient.patch("/personal-discount-code/update",
     newPersonalDiscountCode,
     {
         headers: {
