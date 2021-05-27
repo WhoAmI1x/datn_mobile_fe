@@ -11,6 +11,7 @@ import discountCodes from "./discountCodes";
 import products from "./products";
 import productsSearched from "./productsSearched";
 import personalDiscountCodes from "./personalDiscountCodes";
+import carts from "./carts";
 
 const rootReducer = combineReducers({
     user,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     discountCodes,
     products,
     productsSearched,
-    personalDiscountCodes
+    personalDiscountCodes,
+    carts
 });
 
 export default rootReducer;

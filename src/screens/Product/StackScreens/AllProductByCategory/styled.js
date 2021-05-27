@@ -1,6 +1,5 @@
-import { FlatList, Image, SafeAreaView, ScrollView, StatusBar, TouchableOpacity, VirtualizedList } from "react-native";
+import { Image, SafeAreaView, VirtualizedList } from "react-native";
 import styled from "styled-components";
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Row } from "../../../../utils/gridStyled";
 
 export const Container = styled(SafeAreaView)`

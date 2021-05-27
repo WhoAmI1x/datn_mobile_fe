@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {Linking} from 'react-native';
 import NumberFormat from 'react-number-format';
 import {getDateString} from '../../utils/common.js';
 import {Col, GridLayout, Row} from '../../utils/gridStyled.js';
@@ -36,15 +37,25 @@ class ProductItem extends PureComponent {
       endTime,
       markTime,
       ecommerce,
+      isCart,
+      productUrl,
+      quantity,
     } = this.props;
 
     return (
       <Container
-        onPress={() =>
-          navigate(endTime ? 'ProductDetail' : 'ProductSearchedDetail', {
-            productId: _id,
-          })
-        }
+        onPress={() => {
+          if (isCart) {
+            return Linking.openURL(productUrl);
+          } else {
+            return navigate(
+              endTime ? 'ProductDetail' : 'ProductSearchedDetail',
+              {
+                productId: _id,
+              },
+            );
+          }
+        }}
         activeOpacity={0.5}>
         <ProductImage source={{uri: imageUrls[0]}} />
 
@@ -79,20 +90,29 @@ class ProductItem extends PureComponent {
                     renderText={price => <CurrentPrice>{price}</CurrentPrice>}
                   />
                 </ProductPrice>
-                <ProductExpires>
-                  {!markTime ? (
+
+                {isCart ? (
+                  <ProductExpires>
                     <ProductExpiresText>
-                      Hạn giảm giá: {getDateString(endTime)}
+                      Số lượng: {quantity}
                     </ProductExpiresText>
-                  ) : (
-                    <EcommerceTag>
-                      <FromEcommerce>Từ sàn:</FromEcommerce>
-                      <EcommerceTagText isTiki={ecommerce === 'TIKI'}>
-                        {ecommerce}
-                      </EcommerceTagText>
-                    </EcommerceTag>
-                  )}
-                </ProductExpires>
+                  </ProductExpires>
+                ) : (
+                  <ProductExpires>
+                    {!markTime ? (
+                      <ProductExpiresText>
+                        Hạn giảm giá: {getDateString(endTime)}
+                      </ProductExpiresText>
+                    ) : (
+                      <EcommerceTag>
+                        <FromEcommerce>Từ sàn:</FromEcommerce>
+                        <EcommerceTagText isTiki={ecommerce === 'TIKI'}>
+                          {ecommerce}
+                        </EcommerceTagText>
+                      </EcommerceTag>
+                    )}
+                  </ProductExpires>
+                )}
               </ColContentCustom>
 
               {/* <ColBtnCustom span={3}>
