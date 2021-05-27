@@ -8,7 +8,6 @@ import {
   Container,
   Ecommerce,
   EcommerceTitle,
-  FlatListCustom,
   EmptyList,
   EcommerceWrapper,
 } from './styled';
@@ -18,22 +17,18 @@ function AllCart({actCarts, carts}) {
     actCarts();
   }, []);
 
-  const listEmptyComponent = (
-    <EmptyList>
-      <Text>Không có sản phẩm!</Text>
-    </EmptyList>
-  );
-
   return (
     <Container>
       {carts.map(({ecommerce, productIds}, index) => (
-        <EcommerceWrapper>
+        <EcommerceWrapper key={index}>
           <Ecommerce>
             <EcommerceTitle>{ecommerce}</EcommerceTitle>
           </Ecommerce>
 
           {productIds.length > 0 ? (
-            productIds.map(product => <ProductItem {...product} isCart />)
+            productIds.map((product, index) => (
+              <ProductItem {...product} isCart key={index} />
+            ))
           ) : (
             <EmptyList>
               <Text>Không có sản phẩm!</Text>
