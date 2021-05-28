@@ -1,32 +1,38 @@
-import { Image, ScrollView, TouchableOpacity } from "react-native";
+import { Image, SafeAreaView, ScrollView, VirtualizedList } from "react-native";
 import styled from "styled-components";
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Row } from "../../../../utils/gridStyled";
 
+export const Container = styled(ScrollView)`
+    flex: 1;
+`;
 
-export const Container = styled(ScrollView)``;
+export const EcommerceWrapper = styled.View`
+    margin-bottom: 30px;
+`;
 
-export const Category = styled(Row)`
+export const Ecommerce = styled(Row)`
     justify-content: center;
     align-items: center;
     background-color: #fff;
     margin-bottom: 10px;
-    width: 100%;
-    padding: 0 36px;
-    flex-wrap: nowrap;
 `;
 
-export const CategoryImage = styled(Image)`
-    height: 66px;
-    width: 66px;
-`;
-
-export const CategoryTitle = styled.Text`
+export const EcommerceTitle = styled.Text`
     text-align: left;
     font-size: 30px;
     font-weight: bold;
     padding: 20px 0;
     margin-left: 10px;
+`;
+
+export const FlatListCustom = styled(VirtualizedList)`
+    margin-bottom: 20px;
+`;
+
+export const EmptyList = styled.View`
+    flex: 1;
+    align-items: center;
+    margin-top: 30px;
 `;
 
 export const DiscountCodeItem = styled.View`
@@ -63,31 +69,4 @@ export const DiscountCodeShortDescription = styled.Text`
 export const DiscountCodeExpires = styled.Text`
     font-size: 13px;
     color: #999;
-`;
-
-export const DiscountCodeActions = styled.View`
-    justify-content: space-between;
-    align-items: flex-end;
-`;
-
-export const DiscountCodeFullInfo = styled(AntDesign)`
-    color: #007AFF;
-    font-size: 20px;
-`;
-
-export const DiscountCodeBtn = styled(TouchableOpacity)`
-    ${props => props.isSaveBtn && `font-size: 12px;
-    background-color: #2196F3;
-    padding: 4px 10px;
-    border-radius: 2px;`}
-`;
-
-export const BtnText = styled.Text`
-    color: #fff;
-`;
-
-export const EmptyList = styled.View`
-    flex: 1;
-    align-items: center;
-    margin-top: 30px;
 `;

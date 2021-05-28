@@ -33,6 +33,7 @@ import {
   ProductUrlRow,
   BtnAddToCart,
   BtnAddToCartText,
+  SelectInputCustom,
 } from './styled';
 
 function ProductSearchedDetail({

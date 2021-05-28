@@ -1,5 +1,5 @@
 import { Toast } from "@ant-design/react-native";
-import { getDiscountCodeByCategory, saveDiscountCode } from "../../apis/discountCode";
+import { getDiscountCodeByCategory, getDiscountCodeSaved, saveDiscountCode } from "../../apis/discountCode";
 import { actSetLoading } from "./loading";
 
 export const actGetDiscountCodeByCategory = (categoryId) => async dispatch => {
@@ -29,6 +29,23 @@ export const actSaveDiscountCode = (discountCodeId) => async dispatch => {
         }
     } catch (e) {
         Toast.fail(e.response?.data?.error?.message, 1);
+    }
+    dispatch(actSetLoading(false));
+}
+
+export const actGetDiscountCodeSaved = () => async dispatch => {
+    dispatch(actSetLoading(true));
+    try {
+        const res = await getDiscountCodeSaved();
+
+        if (res.status === 200) {
+            dispatch({
+                type: "SET_DISCOUNT_CODES",
+                payload: res.discountCodesSaved
+            });
+        }
+    } catch (e) {
+        console.log(e);
     }
     dispatch(actSetLoading(false));
 }

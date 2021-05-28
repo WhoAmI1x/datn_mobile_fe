@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Button } from "@ant-design/react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Feather from "react-native-vector-icons/Feather";
 
 export const Container = styled.View`
     flex: 1;
@@ -67,6 +68,11 @@ export const SessionIconGuide = styled(MaterialCommunityIcons)`
 `;
 
 export const SessionIconCart = styled(AntDesign)`
+    font-size: 26px;
+    margin-right: 10px;
+`;
+
+export const SessionIconDiscountCode = styled(Feather)`
     font-size: 26px;
     margin-right: 10px;
 `;

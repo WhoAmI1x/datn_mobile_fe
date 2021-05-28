@@ -18,6 +18,7 @@ import {
   SessionIconGuide,
   SessionIconCart,
   SessionIconSearch,
+  SessionIconDiscountCode,
 } from './styled';
 
 function HomeProfile({navigation: {navigate}, userInfo, actLogOut}) {
@@ -54,9 +55,17 @@ function HomeProfile({navigation: {navigate}, userInfo, actLogOut}) {
           <SessionArrowIcon name="right" />
         </Session>
 
-        <Session activeOpacity={0.5} onPress={() => navigate('Guide')}>
+        <Session activeOpacity={0.5} onPress={() => navigate('Cart')}>
           <SessionIconCart name="shoppingcart" />
           <SessionTitle>Giỏ hàng</SessionTitle>
+          <SessionArrowIcon name="right" />
+        </Session>
+
+        <Session
+          activeOpacity={0.5}
+          onPress={() => navigate('EcommerceDiscountCode')}>
+          <SessionIconDiscountCode name="dollar-sign" />
+          <SessionTitle>Mã đã lưu từ sàn</SessionTitle>
           <SessionArrowIcon name="right" />
         </Session>
 
