@@ -63,6 +63,19 @@ export const actSearchProduct = (keyword) => async dispatch => {
     dispatch(actSetLoading(false));
 }
 
+export const actResetSearchProduct = () => async dispatch => {
+    dispatch(actSetLoading(true));
+    try {
+        dispatch({
+            type: "SET_PRODUCTS_SEARCHED",
+            payload: []
+        });
+    } catch (e) {
+        console.log(e);
+    }
+    dispatch(actSetLoading(false));
+}
+
 export const actGetProductDetailSearched = (productId, cb) => async dispatch => {
     dispatch(actSetLoading(true));
     try {

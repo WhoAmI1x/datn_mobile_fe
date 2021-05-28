@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import ProductItem from '../../../../components/ProductItem';
-import {actSearchProduct} from '../../../../redux/actions/product';
+import {
+  actSearchProduct,
+  actResetSearchProduct,
+} from '../../../../redux/actions/product';
 import {
   Container,
   EmptyList,
@@ -13,9 +16,10 @@ import {
 } from './styled';
 
 function SearchProduct({
-  navigation: {navigate},
+  navigation,
   productsSearched,
   actSearchProduct,
+  actResetSearchProduct,
 }) {
   const [keyword, setKeyword] = useState('');
 
@@ -36,6 +40,14 @@ function SearchProduct({
     </EmptyList>
   );
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      actResetSearchProduct();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <Container>
       <SearchInputWrapper>
@@ -52,7 +64,9 @@ function SearchProduct({
         getItem={getItem}
         getItemCount={allProduct => allProduct.length}
         ListEmptyComponent={listEmptyComponent}
-        renderItem={({item}) => <ProductItem {...item} navigate={navigate} />}
+        renderItem={({item}) => (
+          <ProductItem {...item} navigate={navigation.navigate} />
+        )}
         keyExtractor={(item, index) => index}
         initialNumToRender={6}
       />
@@ -66,6 +80,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   actSearchProduct,
+  actResetSearchProduct,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchProduct);
