@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 
 function Profile() {
   return (
-    <Stack.Navigator headerMode="none" initialRouteName="Guide">
+    <Stack.Navigator headerMode="none">
       <Stack.Screen name="HomeProfile" component={HomeProfile} />
       <Stack.Screen name="EcommerceAccount" component={EcommerceAccount} />
       <Stack.Screen name="SearchProduct" component={SearchProduct} />
