@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {RefreshControl} from 'react-native';
+import {RefreshControl, Text} from 'react-native';
 import {
   actGetDiscountCodeByCategory,
   actSaveDiscountCode,
@@ -25,6 +25,7 @@ import {
   CategoryImage,
   Category,
 } from './styled';
+import {EmptyList} from '../../../Profile/StackScreens/EcommerceDiscountCode/styled';
 
 function AllDiscountCodeByCategory({
   route: {
@@ -65,41 +66,51 @@ function AllDiscountCodeByCategory({
 
       <GridLayout>
         <Row>
-          {discountCodes.map((discountCode, index) => (
-            <Col key={index} span={12}>
-              <DiscountCodeItem>
-                <DiscountCodeImage source={{uri: discountCode.imageUrl}} />
+          {discountCodes.length > 0 ? (
+            discountCodes.map((discountCode, index) => (
+              <Col key={index} span={12}>
+                <DiscountCodeItem>
+                  <DiscountCodeImage source={{uri: discountCode.imageUrl}} />
 
-                <DiscountCodeInfo>
-                  <DiscountCodeTitle numberOfLines={1} ellipsizeMode="tail">
-                    {discountCode.title}
-                  </DiscountCodeTitle>
-                  <DiscountCodeShortDescription
-                    numberOfLines={1}
-                    ellipsizeMode="tail">
-                    {discountCode.description.split('.\n')[0]}.
-                  </DiscountCodeShortDescription>
-                  <DiscountCodeExpires>
-                    Hạn dùng: {getDateString(discountCode.expires)}
-                  </DiscountCodeExpires>
-                </DiscountCodeInfo>
+                  <DiscountCodeInfo>
+                    <DiscountCodeTitle numberOfLines={1} ellipsizeMode="tail">
+                      {discountCode.title}
+                    </DiscountCodeTitle>
+                    <DiscountCodeShortDescription
+                      numberOfLines={1}
+                      ellipsizeMode="tail">
+                      {discountCode.description &&
+                        discountCode.description.split('.\n')[0]}
+                      .
+                    </DiscountCodeShortDescription>
+                    <DiscountCodeExpires>
+                      Hạn dùng: {getDateString(discountCode.expires)}
+                    </DiscountCodeExpires>
+                  </DiscountCodeInfo>
 
-                <DiscountCodeActions>
-                  <DiscountCodeBtn
-                    onPress={() => handleShowDiscountCodeDetail(discountCode)}>
-                    <DiscountCodeFullInfo name="infocirlceo" />
-                  </DiscountCodeBtn>
-                  <DiscountCodeBtn
-                    type="primary"
-                    activeOpacity={0.6}
-                    isSaveBtn
-                    onPress={() => actSaveDiscountCode(discountCode._id)}>
-                    <BtnText>Lưu</BtnText>
-                  </DiscountCodeBtn>
-                </DiscountCodeActions>
-              </DiscountCodeItem>
-            </Col>
-          ))}
+                  <DiscountCodeActions>
+                    <DiscountCodeBtn
+                      onPress={() =>
+                        handleShowDiscountCodeDetail(discountCode)
+                      }>
+                      <DiscountCodeFullInfo name="infocirlceo" />
+                    </DiscountCodeBtn>
+                    <DiscountCodeBtn
+                      type="primary"
+                      activeOpacity={0.6}
+                      isSaveBtn
+                      onPress={() => actSaveDiscountCode(discountCode._id)}>
+                      <BtnText>Lưu</BtnText>
+                    </DiscountCodeBtn>
+                  </DiscountCodeActions>
+                </DiscountCodeItem>
+              </Col>
+            ))
+          ) : (
+            <EmptyList>
+              <Text>Danh sách trống!</Text>
+            </EmptyList>
+          )}
         </Row>
       </GridLayout>
 
