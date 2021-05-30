@@ -6,7 +6,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {connect} from 'react-redux';
 import {actRegister, actLogIn} from '../../redux/actions/user';
-import isFalsyValue from '../../utils/isFalsyValue';
+import {isFalsyValue} from '../../utils/common';
 import {
   Container,
   FormItem,

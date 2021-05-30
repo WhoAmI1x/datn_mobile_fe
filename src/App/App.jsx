@@ -16,7 +16,7 @@ import Product from '../screens/Product';
 import PersonalDiscountCode from '../screens/PersonalDiscountCode';
 import Profile from '../screens/Profile';
 import Login from '../screens/Login';
-import isFalsyValue from '../utils/isFalsyValue';
+import {isFalsyValue} from '../utils/common';
 import Loading from '../components/Loading';
 import {Container} from './styled';
 
