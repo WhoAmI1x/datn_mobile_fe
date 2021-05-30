@@ -5,6 +5,8 @@
 import React, {useState} from 'react';
 import {Col, GridLayout, Row} from '../../utils/gridStyled';
 import {getDateStringAndTime} from '../../utils/common';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {Toast} from '@ant-design/react-native';
 import {
   Container,
   Head,
@@ -20,10 +22,17 @@ import {
   DescriptionRow,
   Description,
   DescriptionText,
+  CodeBtn,
+  CodeCopy,
 } from './styled';
 
 function DiscountCodeDetail({visible, setVisible, currentDiscountCode}) {
   const handleClose = () => setVisible(false);
+
+  const handleCopy = code => {
+    Clipboard.setString(`${code}`);
+    Toast.success('Sao chép thành công!', 1);
+  };
 
   return (
     <Container>
@@ -45,7 +54,12 @@ function DiscountCodeDetail({visible, setVisible, currentDiscountCode}) {
               <Code>Mã:</Code>
             </Col>
             <Col span={8}>
-              <CodeText>{currentDiscountCode.code}</CodeText>
+              <CodeBtn
+                activeOpacity={0.6}
+                onPress={() => handleCopy(currentDiscountCode.code)}>
+                <CodeText>{currentDiscountCode.code}</CodeText>
+                <CodeCopy name="copy1" />
+              </CodeBtn>
             </Col>
           </CodeRow>
 
