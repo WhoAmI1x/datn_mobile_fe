@@ -37,7 +37,7 @@ export const actLogIn = account => async dispatch => {
         }
     } catch (e) {
         console.log(e.response);
-        Toast.fail(e.response?.data?.error?.message, 1);
+        Toast.fail(e.response?.data?.error?.message || "Lỗi đăng nhập!", 1);
     }
     dispatch(actSetLoading(false));
 }
@@ -55,7 +55,7 @@ export const actGetUserInfo = () => async dispatch => {
             dispatch(actSetLoading(false));
         }
     } catch (e) {
-        await AsyncStorage.removeItem("accessToken");
+        // await AsyncStorage.removeItem("accessToken");
         Toast.fail(e.response?.data?.error || "Lỗi xác thực!", 1);
         dispatch(actSetLoading(false));
     }

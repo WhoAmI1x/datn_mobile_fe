@@ -2,10 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import ProductItem from '../../../../components/ProductItem';
-import {
-  actSearchProduct,
-  actResetSearchProduct,
-} from '../../../../redux/actions/product';
+import {actSearchProduct} from '../../../../redux/actions/product';
 import {
   Container,
   EmptyList,
@@ -15,12 +12,7 @@ import {
   VirtualizedListCustom,
 } from './styled';
 
-function SearchProduct({
-  navigation,
-  productsSearched,
-  actSearchProduct,
-  actResetSearchProduct,
-}) {
+function SearchProduct({navigation, productsSearched, actSearchProduct}) {
   const [keyword, setKeyword] = useState('');
 
   const getItem = (allProduct, i) => ({
@@ -39,14 +31,6 @@ function SearchProduct({
       <Text>Không có sản phẩm!</Text>
     </EmptyList>
   );
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('blur', () => {
-      actResetSearchProduct();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
 
   return (
     <Container>
@@ -80,7 +64,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   actSearchProduct,
-  actResetSearchProduct,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchProduct);

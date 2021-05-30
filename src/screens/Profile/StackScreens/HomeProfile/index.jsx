@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {actLogOut} from '../../../../redux/actions/user';
+import {actResetSearchProduct} from '../../../../redux/actions/product';
 import {
   Container,
   AccInfo,
@@ -21,7 +22,15 @@ import {
   SessionIconDiscountCode,
 } from './styled';
 
-function HomeProfile({navigation: {navigate}, userInfo, actLogOut}) {
+function HomeProfile({navigation, userInfo, actLogOut, actResetSearchProduct}) {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      actResetSearchProduct();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <Container>
       <Account>
@@ -43,19 +52,23 @@ function HomeProfile({navigation: {navigate}, userInfo, actLogOut}) {
       <Sessions>
         <Session
           activeOpacity={0.5}
-          onPress={() => navigate('EcommerceAccount')}>
+          onPress={() => navigation.navigate('EcommerceAccount')}>
           <SessionIconCount name="account" />
           <SessionTitle>Quản lý tài khoản sàn</SessionTitle>
           <SessionArrowIcon name="right" />
         </Session>
 
-        <Session activeOpacity={0.5} onPress={() => navigate('SearchProduct')}>
+        <Session
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('SearchProduct')}>
           <SessionIconSearch name="search1" />
           <SessionTitle>Tìm kiếm sản phẩm</SessionTitle>
           <SessionArrowIcon name="right" />
         </Session>
 
-        <Session activeOpacity={0.5} onPress={() => navigate('Cart')}>
+        <Session
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Cart')}>
           <SessionIconCart name="shoppingcart" />
           <SessionTitle>Giỏ hàng</SessionTitle>
           <SessionArrowIcon name="right" />
@@ -63,13 +76,15 @@ function HomeProfile({navigation: {navigate}, userInfo, actLogOut}) {
 
         <Session
           activeOpacity={0.5}
-          onPress={() => navigate('EcommerceDiscountCode')}>
+          onPress={() => navigation.navigate('EcommerceDiscountCode')}>
           <SessionIconDiscountCode name="dollar-sign" />
           <SessionTitle>Mã đã lưu từ sàn</SessionTitle>
           <SessionArrowIcon name="right" />
         </Session>
 
-        <Session activeOpacity={0.5} onPress={() => navigate('Guide')}>
+        <Session
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Guide')}>
           <SessionIconGuide name="comment-question-outline" />
           <SessionTitle>Hướng dẫn lưu sản phẩm và mã giảm giá</SessionTitle>
           <SessionArrowIcon name="right" />
@@ -89,6 +104,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   actLogOut,
+  actResetSearchProduct,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeProfile);

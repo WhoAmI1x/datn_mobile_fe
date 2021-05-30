@@ -43,8 +43,6 @@ function ProductSearchedDetail({
   actGetProductDetailSearched,
   actAddProductToCart,
 }) {
-  console.log(productId);
-
   const [productFullInfo, setProductFullInfo] = useState({});
   const [currentImage, setCurrentImage] = useState(6);
   const [modelSelected, setModelSelected] = useState({});
@@ -119,11 +117,13 @@ function ProductSearchedDetail({
               )}
             />
 
-            <DiscountPercent>{`-${
-              modelSelected.price
-                ? modelSelected.discountPercent
-                : productFullInfo.discountPercent
-            }%`}</DiscountPercent>
+            {
+              <DiscountPercent>{`-${
+                (modelSelected.price
+                  ? modelSelected.discountPercent
+                  : productFullInfo.discountPercent) || 0
+              }%`}</DiscountPercent>
+            }
           </ColCustom>
 
           <ColCustom span={12}>
