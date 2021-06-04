@@ -36,7 +36,7 @@ export const actLogIn = account => async dispatch => {
             Toast.success("Đăng nhập thành công!", 1);
         }
     } catch (e) {
-        console.log(e.response);
+        console.log(e);
         Toast.fail(e.response?.data?.error?.message || "Lỗi đăng nhập!", 1);
     }
     dispatch(actSetLoading(false));

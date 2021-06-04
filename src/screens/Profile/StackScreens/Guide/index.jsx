@@ -44,6 +44,15 @@ function Guide(params) {
               </Text>
             </Col>
           </Row>
+
+          <Row>
+            <Col span={1}>
+              <NumberOrder>3.</NumberOrder>
+            </Col>
+            <Col span={11}>
+              <Text>Đã có thể lưu mã giảm giá và sản phẩm</Text>
+            </Col>
+          </Row>
         </GridLayout>
       </EcommerceWrapper>
 
@@ -113,6 +122,15 @@ function Guide(params) {
               <Text>
                 Ấn nút <TextBold>Cập nhật</TextBold>
               </Text>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col span={1}>
+              <NumberOrder>5.</NumberOrder>
+            </Col>
+            <Col span={11}>
+              <Text>Đã có thể lưu mã giảm giá và sản phẩm</Text>
             </Col>
           </Row>
         </GridLayout>

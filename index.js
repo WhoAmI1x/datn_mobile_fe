@@ -18,7 +18,7 @@ import { Provider as AntProvider } from "@ant-design/react-native";
 import enUS from '@ant-design/react-native/lib/locale-provider/en_US';
 import { NavigationContainer } from '@react-navigation/native';
 
-// LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs();
 
 const render = () => {
     let store = createStore(rootReducer, {}, applyMiddleware(thunk));
