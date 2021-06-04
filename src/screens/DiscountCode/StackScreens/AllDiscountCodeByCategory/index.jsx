@@ -67,45 +67,47 @@ function AllDiscountCodeByCategory({
       <GridLayout>
         <Row>
           {discountCodes.length > 0 ? (
-            discountCodes.map((discountCode, index) => (
-              <Col key={index} span={12}>
-                <DiscountCodeItem>
-                  <DiscountCodeImage source={{uri: discountCode.imageUrl}} />
+            discountCodes
+              .sort((dc1, dc2) => dc1.expires - dc2.expires)
+              .map((discountCode, index) => (
+                <Col key={index} span={12}>
+                  <DiscountCodeItem>
+                    <DiscountCodeImage source={{uri: discountCode.imageUrl}} />
 
-                  <DiscountCodeInfo>
-                    <DiscountCodeTitle numberOfLines={1} ellipsizeMode="tail">
-                      {discountCode.title}
-                    </DiscountCodeTitle>
-                    <DiscountCodeShortDescription
-                      numberOfLines={1}
-                      ellipsizeMode="tail">
-                      {discountCode.description &&
-                        discountCode.description.split('.\n')[0]}
-                      .
-                    </DiscountCodeShortDescription>
-                    <DiscountCodeExpires>
-                      Hạn dùng: {getDateString(discountCode.expires)}
-                    </DiscountCodeExpires>
-                  </DiscountCodeInfo>
+                    <DiscountCodeInfo>
+                      <DiscountCodeTitle numberOfLines={1} ellipsizeMode="tail">
+                        {discountCode.title}
+                      </DiscountCodeTitle>
+                      <DiscountCodeShortDescription
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {discountCode.description &&
+                          discountCode.description.split('.\n')[0]}
+                        .
+                      </DiscountCodeShortDescription>
+                      <DiscountCodeExpires>
+                        Hạn dùng: {getDateString(discountCode.expires)}
+                      </DiscountCodeExpires>
+                    </DiscountCodeInfo>
 
-                  <DiscountCodeActions>
-                    <DiscountCodeBtn
-                      onPress={() =>
-                        handleShowDiscountCodeDetail(discountCode)
-                      }>
-                      <DiscountCodeFullInfo name="infocirlceo" />
-                    </DiscountCodeBtn>
-                    <DiscountCodeBtn
-                      type="primary"
-                      activeOpacity={0.6}
-                      isSaveBtn
-                      onPress={() => actSaveDiscountCode(discountCode._id)}>
-                      <BtnText>Lưu</BtnText>
-                    </DiscountCodeBtn>
-                  </DiscountCodeActions>
-                </DiscountCodeItem>
-              </Col>
-            ))
+                    <DiscountCodeActions>
+                      <DiscountCodeBtn
+                        onPress={() =>
+                          handleShowDiscountCodeDetail(discountCode)
+                        }>
+                        <DiscountCodeFullInfo name="infocirlceo" />
+                      </DiscountCodeBtn>
+                      <DiscountCodeBtn
+                        type="primary"
+                        activeOpacity={0.6}
+                        isSaveBtn
+                        onPress={() => actSaveDiscountCode(discountCode._id)}>
+                        <BtnText>Lưu</BtnText>
+                      </DiscountCodeBtn>
+                    </DiscountCodeActions>
+                  </DiscountCodeItem>
+                </Col>
+              ))
           ) : (
             <EmptyList>
               <Text>Danh sách trống!</Text>
