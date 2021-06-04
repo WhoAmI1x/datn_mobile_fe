@@ -41,65 +41,14 @@ function EcommerceDiscountCode({discountCodes, actGetDiscountCodeSaved}) {
         <GridLayout>
           <Row>
             {tikiDiscountCodeSaved.length > 0 ? (
-              tikiDiscountCodeSaved.map((discountCode, index) => (
-                <Col key={index} span={12}>
-                  <DiscountCodeItem>
-                    <DiscountCodeImage
-                      source={{
-                        uri: discountCode.imageUrl,
-                      }}
-                    />
-
-                    <DiscountCodeInfo>
-                      <DiscountCodeTitle numberOfLines={1} ellipsizeMode="tail">
-                        {discountCode.title}
-                      </DiscountCodeTitle>
-                      <DiscountCodeShortDescription
-                        numberOfLines={1}
-                        ellipsizeMode="tail">
-                        {discountCode.description &&
-                          discountCode.description.split('.\n')[0]}
-                        .
-                      </DiscountCodeShortDescription>
-                      <DiscountCodeExpires>
-                        Hạn dùng: {getDateString(discountCode.expires)}
-                      </DiscountCodeExpires>
-                    </DiscountCodeInfo>
-                  </DiscountCodeItem>
-                </Col>
-              ))
-            ) : (
-              <EmptyList>
-                <Text>Danh sách trống!</Text>
-              </EmptyList>
-            )}
-          </Row>
-        </GridLayout>
-      </EcommerceWrapper>
-
-      <EcommerceWrapper>
-        <Ecommerce>
-          <EcommerceTitle>SHOPEE</EcommerceTitle>
-        </Ecommerce>
-
-        <GridLayout>
-          <Row>
-            {shopeeDiscountCodeSaved.length > 0 ? (
-              shopeeDiscountCodeSaved.map((discountCode, index) => (
-                <Col key={index} span={12}>
-                  <TouchableOpacity
-                    activeOpacity={0.6}
-                    onPress={() =>
-                      Linking.openURL(
-                        `https://shopee.vn/voucher-details/${discountCode.code}/${discountCode.mainId}/${discountCode.shopeeSignature}?action=use`,
-                      )
-                    }>
+              tikiDiscountCodeSaved
+                .sort((dc1, dc2) => dc1.expires - dc2.expires)
+                .map((discountCode, index) => (
+                  <Col key={index} span={12}>
                     <DiscountCodeItem>
                       <DiscountCodeImage
                         source={{
-                          uri: discountCode.imageUrl.includes('https')
-                            ? discountCode.imageUrl
-                            : `${BASE_API_URL}${discountCode.imageUrl}`,
+                          uri: discountCode.imageUrl,
                         }}
                       />
 
@@ -121,9 +70,66 @@ function EcommerceDiscountCode({discountCodes, actGetDiscountCodeSaved}) {
                         </DiscountCodeExpires>
                       </DiscountCodeInfo>
                     </DiscountCodeItem>
-                  </TouchableOpacity>
-                </Col>
-              ))
+                  </Col>
+                ))
+            ) : (
+              <EmptyList>
+                <Text>Danh sách trống!</Text>
+              </EmptyList>
+            )}
+          </Row>
+        </GridLayout>
+      </EcommerceWrapper>
+
+      <EcommerceWrapper>
+        <Ecommerce>
+          <EcommerceTitle>SHOPEE</EcommerceTitle>
+        </Ecommerce>
+
+        <GridLayout>
+          <Row>
+            {shopeeDiscountCodeSaved.length > 0 ? (
+              shopeeDiscountCodeSaved
+                .sort((dc1, dc2) => dc1.expires - dc2.expires)
+                .map((discountCode, index) => (
+                  <Col key={index} span={12}>
+                    <TouchableOpacity
+                      activeOpacity={0.6}
+                      onPress={() =>
+                        Linking.openURL(
+                          `https://shopee.vn/voucher-details/${discountCode.code}/${discountCode.mainId}/${discountCode.shopeeSignature}?action=use`,
+                        )
+                      }>
+                      <DiscountCodeItem>
+                        <DiscountCodeImage
+                          source={{
+                            uri: discountCode.imageUrl.includes('https')
+                              ? discountCode.imageUrl
+                              : `${BASE_API_URL}${discountCode.imageUrl}`,
+                          }}
+                        />
+
+                        <DiscountCodeInfo>
+                          <DiscountCodeTitle
+                            numberOfLines={1}
+                            ellipsizeMode="tail">
+                            {discountCode.title}
+                          </DiscountCodeTitle>
+                          <DiscountCodeShortDescription
+                            numberOfLines={1}
+                            ellipsizeMode="tail">
+                            {discountCode.description &&
+                              discountCode.description.split('.\n')[0]}
+                            .
+                          </DiscountCodeShortDescription>
+                          <DiscountCodeExpires>
+                            Hạn dùng: {getDateString(discountCode.expires)}
+                          </DiscountCodeExpires>
+                        </DiscountCodeInfo>
+                      </DiscountCodeItem>
+                    </TouchableOpacity>
+                  </Col>
+                ))
             ) : (
               <EmptyList>
                 <Text>Danh sách trống!</Text>
