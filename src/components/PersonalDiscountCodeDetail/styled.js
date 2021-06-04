@@ -50,12 +50,6 @@ export const CodeRow = styled(Row)`
     padding: 10px;
 `;
 
-export const Code = styled.Text`
-    color: #7D7D7D;
-`;
-
-export const CodeText = styled.Text``;
-
 export const ExpiresRow = styled(Row)`
     padding: 10px;
     background-color: #FFF;
@@ -65,7 +59,9 @@ export const Expires = styled.Text`
     color: #7D7D7D;
 `;
 
-export const ExpiresText = styled.Text``;
+export const ExpiresText = styled.Text`
+    color: #2196F3;
+`;
 
 export const DescriptionRow = styled(Row)`
     padding: 10px;

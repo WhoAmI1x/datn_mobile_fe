@@ -2,6 +2,7 @@ import { List, SwipeAction } from "@ant-design/react-native";
 import { Image, ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import SelectInput from 'react-native-select-input-ios';
 
 export const Container = styled.View`
     position: relative;
@@ -71,6 +72,13 @@ export const DiscountCodeFullInfo = styled(AntDesign)`
 
 export const DiscountCodeBtn = styled(TouchableOpacity)``;
 
+export const DiscountCodeBtnUse = styled.Text`
+    color: ${props => props.isUsed ? "#AFAFAF" : "#fff"};
+    padding: 5px;
+    background-color: ${props => props.isUsed ? "#EEEEEE" : "#007AFF"};
+    border-radius: 5px;
+`;
+
 export const DiscountCodeBtnCreate = styled(TouchableOpacity)`
     position: absolute;
     bottom: 10px;
@@ -84,4 +92,10 @@ export const BtnCreateIcon = styled(AntDesign)`
     border-radius: 50px;
     padding: 16px;
     border: 1px solid #eed;
+`;
+
+export const SelectInputCustom = styled(SelectInput)`
+    margin-top: 5px;
+    background-color: #fff;
+    margin: 0 10px 10px;
 `;

@@ -13,8 +13,6 @@ import {
   HeadTitle,
   ModalCustom,
   CodeRow,
-  Code,
-  CodeText,
   Expires,
   ExpiresText,
   ExpiresRow,

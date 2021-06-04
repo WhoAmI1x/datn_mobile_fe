@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {
   actGetPersonalDiscountCodes,
   actDeletePersonalDiscountCode,
+  actUpdatePersonalDiscountCode,
 } from '../../../../redux/actions/personalDiscountCode';
 import {getDateString} from '../../../../utils/common';
 import {BASE_API_URL} from '../../../../utils/constants';
@@ -25,6 +26,8 @@ import {
   DiscountCodeFullInfo,
   BtnCreateIcon,
   DiscountCodeBtnCreate,
+  DiscountCodeBtnUse,
+  SelectInputCustom,
 } from './styled';
 
 function PersonalDiscountCode({
@@ -32,6 +35,7 @@ function PersonalDiscountCode({
   personalDiscountCodes,
   actDeletePersonalDiscountCode,
   navigation,
+  actUpdatePersonalDiscountCode,
 }) {
   const [visible, setVisible] = useState(false);
   const [currentPersonalDiscountCode, setCurrentPersonalDiscountCode] =
@@ -39,11 +43,7 @@ function PersonalDiscountCode({
   const [personalDiscountCodeSwiped, setPersonalDiscountCodeSwiped] = useState(
     {},
   );
-
-  const handleShowPersonalDiscountCodeDetail = personalDiscountCode => {
-    setVisible(true);
-    setCurrentPersonalDiscountCode(personalDiscountCode);
-  };
+  const [filterValue, setFilterValue] = useState(1);
 
   const left = [
     {
@@ -61,6 +61,55 @@ function PersonalDiscountCode({
       style: {backgroundColor: 'red', color: 'white'},
     },
   ];
+
+  const selectOptions = [
+    {
+      value: 1,
+      label: 'Tất cả',
+    },
+    {
+      value: 2,
+      label: 'Sắp hết hạn',
+    },
+    {
+      value: 3,
+      label: 'Đã hết hạn',
+    },
+    {
+      value: 4,
+      label: 'Đã dùng',
+    },
+  ];
+
+  const handleShowPersonalDiscountCodeDetail = personalDiscountCode => {
+    setVisible(true);
+    setCurrentPersonalDiscountCode(personalDiscountCode);
+  };
+
+  const handleChangeUseStatus = pdc => {
+    const formData = new FormData();
+    formData.append('isUsed', !pdc.isUsed);
+
+    actUpdatePersonalDiscountCode(navigation.navigate, formData, pdc._id);
+  };
+
+  const handleChangeFilter = fv => setFilterValue(fv);
+
+  const handleChangePersonalDiscountCodeList = pdc => {
+    if (filterValue === 1) {
+      return pdc;
+    } else if (filterValue === 2) {
+      return (
+        !pdc.isUsed &&
+        pdc.expires < Date.now() + 259200000 &&
+        pdc.expires > Date.now()
+      );
+    } else if (filterValue === 3) {
+      return pdc.expires - Date.now() <= 0;
+    } else {
+      return pdc.isUsed;
+    }
+  };
 
   const onRefresh = useCallback(() => actGetPersonalDiscountCodes(), []);
 
@@ -86,56 +135,79 @@ function PersonalDiscountCode({
     <Container>
       <ScreenTitle>Mã cá nhân</ScreenTitle>
 
+      <SelectInputCustom
+        options={selectOptions}
+        value={filterValue}
+        onSubmitEditing={handleChangeFilter}
+      />
+
       <CodeList
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={onRefresh} />
         }>
         <GridLayout>
           <Row>
-            {personalDiscountCodes.map((personalDiscountCode, index) => (
-              <Col key={index} span={12}>
-                <SwipeActionCustom
-                  autoClose
-                  left={left}
-                  onOpen={() =>
-                    setPersonalDiscountCodeSwiped(personalDiscountCode)
-                  }
-                  onClose={() => setPersonalDiscountCodeSwiped({})}>
-                  <PersonalDiscountCodeItem>
-                    <DiscountCodeImage
-                      source={{
-                        uri: `${BASE_API_URL}${personalDiscountCode.imageUrls[0]}`,
-                      }}
-                    />
+            {personalDiscountCodes
+              .filter(handleChangePersonalDiscountCodeList)
+              .sort((pdc1, pdc2) => pdc1.expires - pdc2.expires)
+              .map((personalDiscountCode, index) => (
+                <Col key={index} span={12}>
+                  <SwipeActionCustom
+                    autoClose
+                    left={left}
+                    onOpen={() =>
+                      setPersonalDiscountCodeSwiped(personalDiscountCode)
+                    }
+                    onClose={() => setPersonalDiscountCodeSwiped({})}>
+                    <PersonalDiscountCodeItem>
+                      <DiscountCodeImage
+                        source={{
+                          uri: `${BASE_API_URL}${personalDiscountCode.imageUrls[0]}`,
+                        }}
+                      />
 
-                    <DiscountCodeInfo>
-                      <DiscountCodeTitle numberOfLines={1} ellipsizeMode="tail">
-                        {personalDiscountCode.title}
-                      </DiscountCodeTitle>
-                      <DiscountCodeShortDescription
-                        numberOfLines={1}
-                        ellipsizeMode="tail">
-                        {personalDiscountCode.description.split('.\n')[0]}.
-                      </DiscountCodeShortDescription>
-                      <DiscountCodeExpires>
-                        Hạn dùng: {getDateString(personalDiscountCode.expires)}
-                      </DiscountCodeExpires>
-                    </DiscountCodeInfo>
+                      <DiscountCodeInfo>
+                        <DiscountCodeTitle
+                          numberOfLines={1}
+                          ellipsizeMode="tail">
+                          {personalDiscountCode.title}
+                        </DiscountCodeTitle>
+                        <DiscountCodeShortDescription
+                          numberOfLines={1}
+                          ellipsizeMode="tail">
+                          {personalDiscountCode.description.split('.\n')[0]}.
+                        </DiscountCodeShortDescription>
+                        <DiscountCodeExpires>
+                          Hạn dùng:{' '}
+                          {getDateString(personalDiscountCode.expires)}
+                        </DiscountCodeExpires>
+                      </DiscountCodeInfo>
 
-                    <DiscountCodeActions>
-                      <DiscountCodeBtn
-                        onPress={() =>
-                          handleShowPersonalDiscountCodeDetail(
-                            personalDiscountCode,
-                          )
-                        }>
-                        <DiscountCodeFullInfo name="infocirlceo" />
-                      </DiscountCodeBtn>
-                    </DiscountCodeActions>
-                  </PersonalDiscountCodeItem>
-                </SwipeActionCustom>
-              </Col>
-            ))}
+                      <DiscountCodeActions>
+                        <DiscountCodeBtn
+                          onPress={() =>
+                            handleShowPersonalDiscountCodeDetail(
+                              personalDiscountCode,
+                            )
+                          }>
+                          <DiscountCodeFullInfo name="infocirlceo" />
+                        </DiscountCodeBtn>
+
+                        <DiscountCodeBtn
+                          activeOpacity={0.6}
+                          onPress={() =>
+                            handleChangeUseStatus(personalDiscountCode)
+                          }>
+                          <DiscountCodeBtnUse
+                            isUsed={personalDiscountCode.isUsed}>
+                            {personalDiscountCode.isUsed ? 'Đã dùng' : 'Dùng'}
+                          </DiscountCodeBtnUse>
+                        </DiscountCodeBtn>
+                      </DiscountCodeActions>
+                    </PersonalDiscountCodeItem>
+                  </SwipeActionCustom>
+                </Col>
+              ))}
           </Row>
         </GridLayout>
       </CodeList>
@@ -161,6 +233,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   actGetPersonalDiscountCodes,
   actDeletePersonalDiscountCode,
+  actUpdatePersonalDiscountCode,
 };
 
 export default connect(
