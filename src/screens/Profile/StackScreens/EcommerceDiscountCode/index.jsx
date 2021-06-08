@@ -143,7 +143,7 @@ function EcommerceDiscountCode({discountCodes, actGetDiscountCodeSaved}) {
 }
 
 const mapStateToProps = state => ({
-  discountCodes: state.discountCodes,
+  discountCodes: state.discountCodesSaved,
 });
 
 const mapDispatchToProps = {actGetDiscountCodeSaved};

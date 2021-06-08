@@ -40,7 +40,7 @@ export const actGetDiscountCodeSaved = () => async dispatch => {
 
         if (res.status === 200) {
             dispatch({
-                type: "SET_DISCOUNT_CODES",
+                type: "SET_DISCOUNT_CODES_SAVED",
                 payload: res.discountCodesSaved
             });
         }
