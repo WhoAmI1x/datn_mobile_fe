@@ -12,12 +12,13 @@ export const actRegister = account => async dispatch => {
             await AsyncStorage.setItem("accessToken", res.token);
             dispatch({
                 type: "SET_USER",
-                payload: res.user
+                payload: res.newUser
             });
-            Toast.success("Đăng nhập thành công!", 2);
+            Toast.success("Đăng ký thành công!", 2);
         }
     } catch (e) {
-        Toast.fail(e.response?.data?.error?.message, 2);
+        console.log(e);
+        Toast.fail(e.response?.data?.error?.message || "Lỗi đăng ký!", 2);
     }
     dispatch(actSetLoading(false));
 }
